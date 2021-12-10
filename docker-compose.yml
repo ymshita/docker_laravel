@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  app:
+    env_file: ./backend/.env
+    build:
+      context: .
+      dockerfile: ./infra/php/Dockerfile
+    container_name: "app"
+    volumes:
+      - ./backend:/usr/local/src
+    environment:
+      - APP_URL=${APP_URL}
+  web:
+    image: nginx:1.18-alpine
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    container_name: "web"
+    volumes:
+      - ./backend:/usr/local/src
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./infra/nginx/default.conf.template:/etc/nginx/conf.d/default.conf.template
+      - ./infra/nginx/certs:/etc/nginx/certs
+      - ./infra/nginx/private:/etc/nginx/private
+    working_dir: /usr/local/src
+    environment:
+      - WEB_DOMAIN=${WEB_DOMAIN}
+      - APP_PORT=${APP_PORT}
+      - SSL=${SSL}
+      - SSL_PASSWD=${SSL_PASSWD}
+    command: /bin/ash -c "envsubst '$$WEB_DOMAIN$$APP_PORT$$SSL' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && envsubst '$$SSL_PASSWD' < /etc/nginx/private/pass_file.txt.template > /etc/nginx/private/pass_file.txt && nginx -g 'daemon off;'"
+  db:
+    env_file: ./backend/.env
+    build: ./infra/mysql
+    container_name: "db"
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./infra/mysql/initdb:/docker-entrypoint-initdb.d
+      - ./infra/mysql/logs:/var/log/mysql
+    ports:
+      - 33060:3306
+volumes:
+  db-store: null
+  db_data: {}
