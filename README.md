@@ -25,15 +25,23 @@ MYSQL_ALLOW_EMPTY_PASSWORD="${DB_PASSWORD}"
 MYSQL_RANDOM_ROOT_PASSWORD="${DB_ROOT_PASSWORD}"
 ```
 
-- プロジェクトルートで以下を行いファイル作成
+- プロジェクトルートで以下を行い `.devcontainer` 作成
 
 ```
 git clone git@github.com:ymshita/.devcontainer.git
 ```
+
 OR
+
 ```
 mkdir .devcontainer
 touch .devcontainer/docker-php-ext-xdebug.ini
+```
+
+- `default.conf.template` から .env ファイルを作成し設定
+
+```
+cp backend/default.conf.template backend/default.conf
 ```
 
 - コンテナを実行(`--build`指定は初回のみ)
@@ -161,6 +169,7 @@ docker-compose build --no-cache
 ```
 
 ### next
+
 ```
 docker-compose exec app npm --prefix client run build
 ```

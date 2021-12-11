@@ -45,5 +45,4 @@ backend/storage/google/credentials_web.json
 backend/storage/google/credentials_desctop.json
 infra/nginx/certs/*
 infra/nginx/private/pass_file.txt
-infra/nginx/default.conf
-
+infra/mysql/logs/*
