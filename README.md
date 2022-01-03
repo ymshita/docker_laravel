@@ -34,7 +34,7 @@ git clone git@github.com:ymshita/.devcontainer.git
 OR
 
 ```
-mkdir .devcontainer
+mkdir .devcontainer &&\
 touch .devcontainer/docker-php-ext-xdebug.ini
 ```
 
@@ -77,8 +77,8 @@ php artisan key:generate --show
 - DB 作成とマイグレーション
 
 ```
-docker-compose exec app php artisan cache:clear
-docker-compose exec app php artisan config:cache
+docker-compose exec app php artisan cache:clear && \
+docker-compose exec app php artisan config:cache &&\
 docker-compose exec app php artisan migrate:fresh --seed
 ```
 
