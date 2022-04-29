@@ -46,3 +46,6 @@ backend/storage/google/credentials_desctop.json
 infra/nginx/certs/*
 infra/nginx/private/pass_file.txt
 infra/mysql/logs/*
+.vscode/settings.json
+infra/nginx/default.conf
+tucuru/

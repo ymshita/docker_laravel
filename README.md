@@ -3,7 +3,7 @@
 - `.env.example` から .env ファイルを作成し設定
 
 ```
-cp backend/.env.example backend/.env
+cp ${BACKEND}/.env.example ${BACKEND}/.env
 ```
 
 - .env ファイルの以下の環境変数を設定
@@ -41,7 +41,7 @@ touch .devcontainer/docker-php-ext-xdebug.ini
 - `default.conf.template` から .env ファイルを作成し設定
 
 ```
-cp backend/default.conf.template backend/default.conf
+cp ${BACKEND}/default.conf.template ${BACKEND}/default.conf
 ```
 
 - コンテナを実行(`--build`指定は初回のみ)
@@ -173,3 +173,9 @@ docker-compose build --no-cache
 ```
 docker-compose exec app npm --prefix client run build
 ```
+
+### 静的解析
+- 実行
+    - `docker-compose exec app ./vendor/bin/psalm`
+- キャッシュクリア
+    - `docker-compose exec app ./vendor/bin/psalm --clear-cache`
