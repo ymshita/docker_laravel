@@ -8,7 +8,7 @@ ARG TZ=Asia/Tokyo
 ENV TZ ${TZ}
 ENV LANG C.UTF-8
 ENV WORKSPACE=/usr/local/src
-COPY ./backend $WORKSPACE
+COPY ./${APP_DIR} $WORKSPACE
 
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
@@ -52,8 +52,8 @@ COPY ./.devcontainer/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-
 # USER dev
 WORKDIR $WORKSPACE
 
-ADD ./backend/composer.json /work/composer.json
-ADD ./backend/composer.lock /work/composer.lock
+# ADD ./${APP_DIR}/composer.json /work/composer.json
+# ADD ./${APP_DIR}/composer.lock /work/composer.lock
 # RUN composer global require "laravel/installer"
 
 # CMD COMPOSER_MEMORY_LIMIT=-1 composer require "laravel/jetstream" && \

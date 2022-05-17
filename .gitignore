@@ -9,6 +9,7 @@ backend/vendor/
 /vendor/
 backend/
 _backend/
+/app-*
 node_modules/
 npm-debug.log
 yarn-error.log
