@@ -8,7 +8,7 @@ ARG TZ=Asia/Tokyo
 ENV TZ ${TZ}
 ENV LANG C.UTF-8
 ENV WORKSPACE=/usr/local/src
-COPY ./${APP_DIR} $WORKSPACE
+COPY ${APP_DIR} $WORKSPACE
 
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
@@ -26,6 +26,7 @@ RUN apt-get update && \
   docker-php-ext-install pdo pdo_pgsql pgsql mbstring &&\
   docker-php-ext-configure imap --with-kerberos --with-imap-ssl &&\
   docker-php-ext-install imap &&\
+  docker-php-ext-install sockets &&\
   pecl install xdebug && docker-php-ext-enable xdebug
 
 # install Node.js and npm.
@@ -52,8 +53,8 @@ COPY ./.devcontainer/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-
 # USER dev
 WORKDIR $WORKSPACE
 
-# ADD ./${APP_DIR}/composer.json /work/composer.json
-# ADD ./${APP_DIR}/composer.lock /work/composer.lock
+# ADD ${APP_DIR}/composer.json /work/composer.json
+# ADD ${APP_DIR}/composer.lock /work/composer.lock
 # RUN composer global require "laravel/installer"
 
 # CMD COMPOSER_MEMORY_LIMIT=-1 composer require "laravel/jetstream" && \

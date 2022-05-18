@@ -1,23 +1,23 @@
 version: "3.8"
 services:
   app:
-    env_file: ./${APP_DIR}/.env
+    env_file: ../${APP}/.env
     build:
       context: .
       dockerfile: ./infra/php/Dockerfile
-    container_name: "app"
+    container_name: "${APP}_app"
     volumes:
-      - ./${APP_DIR}:/usr/local/src
+      - ../${APP}:/usr/local/src
     environment:
       - APP_URL=${APP_URL}
-      - APP_DIR=${APP_DIR}
+      - APP_DIR=../${APP}
   web:
     image: nginx:1.18-alpine
     ports:
       - "${APP_PORT}:${APP_PORT}"
-    container_name: "web"
+    container_name: "${APP}_web"
     volumes:
-      - ./${APP_DIR}:/usr/local/src
+      - ../${APP}:/usr/local/src
       - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./infra/nginx/default.conf.template:/etc/nginx/conf.d/default.conf.template
       - ./infra/nginx/certs:/etc/nginx/certs
@@ -30,15 +30,20 @@ services:
       - SSL_PASSWD=${SSL_PASSWD}
     command: /bin/ash -c "envsubst '$$WEB_DOMAIN$$APP_PORT$$SSL' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && envsubst '$$SSL_PASSWD' < /etc/nginx/private/pass_file.txt.template > /etc/nginx/private/pass_file.txt && nginx -g 'daemon off;'"
   db:
-    env_file: ./${APP_DIR}/.env
     build: ./infra/mysql
-    container_name: "db"
+    container_name: "${APP}_db"
     volumes:
       - db-store:/var/lib/mysql
       - ./infra/mysql/initdb:/docker-entrypoint-initdb.d
       - ./infra/mysql/logs:/var/log/mysql
     ports:
       - 33060:3306
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${DB_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
 volumes:
-  db-store: null
-  db_data: {}
+  ${APP}-db-store: null
