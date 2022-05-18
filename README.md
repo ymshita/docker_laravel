@@ -3,7 +3,8 @@
 - `.env.example` から .env ファイルを作成し設定
 
 ```bash
-cp ${BACKEND}/.env.example ${BACKEND}/.env
+APP=`cat .env | grep APP | sed s/APP=//` &&\
+cp ../${APP}/.env.example ../${APP}/.env
 ```
 
 - .env ファイルの以下の環境変数を設定
