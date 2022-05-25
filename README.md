@@ -80,8 +80,14 @@ php artisan key:generate --show
 
 ```bash
 docker-compose exec app php artisan cache:clear && \
-docker-compose exec app php artisan config:cache &&\
+docker-compose exec app php artisan config:cache && \
 docker-compose exec app php artisan migrate:fresh --seed
+```
+
+- ストレージの公開領域用のシンボリックリンクを作成（必要に応じ）
+
+```bash
+docker-compose exec app php artisan storage:link
 ```
 
 - フロントエンドライブラリのコンパイル

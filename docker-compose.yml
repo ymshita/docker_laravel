@@ -11,6 +11,11 @@ services:
     environment:
       - APP_URL=${APP_URL}
       - APP_DIR=../${APP}
+      - APP_NAME=${APP}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
   web:
     image: nginx:1.18-alpine
     ports:

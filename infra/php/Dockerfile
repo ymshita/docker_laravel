@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-buster
+FROM php:8.0.19-fpm-buster
 SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 
 # set envs
