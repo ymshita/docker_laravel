@@ -3,27 +3,17 @@
 - `.env.example` から .env ファイルを作成し設定
 
 ```bash
-APP=`cat .env | grep APP | sed s/APP=//` &&\
+APP=`cat .env | grep APP= | sed s/APP=//` &&\
 cp ../${APP}/.env.example ../${APP}/.env
 ```
 
 - .env ファイルの以下の環境変数を設定
 
 ```.env
-DB_DATABASE
-DB_USERNAME
-DB_PASSWORD
-DB_ROOT_PASSWORD
-POSTGRES_DB="${DB_DATABASE}"
-POSTGRES_USER="${DB_USERNAME}"
-POSTGRES_PASSWORD="${DB_PASSWORD}"
-POSTGRES_ROOT_PASSWORD="${DB_ROOT_PASSWORD}"
-MYSQL_DATABASE="${DB_DATABASE}"
-MYSQL_USER="${DB_USERNAME}"
-MYSQL_PASSWORD="${DB_PASSWORD}"
-MYSQL_ROOT_PASSWORD="${DB_ROOT_PASSWORD}"
-MYSQL_ALLOW_EMPTY_PASSWORD="${DB_PASSWORD}"
-MYSQL_RANDOM_ROOT_PASSWORD="${DB_ROOT_PASSWORD}"
+# DB_DATABASE=
+# DB_USERNAME=
+# DB_PASSWORD=
+# DB_ROOT_PASSWORD=
 ```
 
 - プロジェクトルートで以下を行い `.devcontainer` 作成
