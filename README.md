@@ -80,6 +80,12 @@ docker-compose exec app php artisan migrate:fresh --seed
 docker-compose exec app php artisan storage:link
 ```
 
+- ログの書き込み権限変更
+
+```bash
+docker-compose exec app chmod -R a+w ./storage
+```
+
 - フロントエンドライブラリのコンパイル
 
 ```bash
