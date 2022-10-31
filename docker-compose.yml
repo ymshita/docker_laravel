@@ -19,6 +19,10 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - DB_TESTING_HOST=${DB_TESTING_HOST}
+      - DB_TESTING_DATABASE=${DB_TESTING_DATABASE}
+      - DB_TESTING_USERNAME=${DB_TESTING_USERNAME}
+      - DB_TESTING_PASSWORD=${DB_TESTING_PASSWORD}
   web:
     image: nginx:1.18-alpine
     ports:
@@ -53,6 +57,24 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_ALLOW_EMPTY_PASSWORD=${DB_PASSWORD}
       - MYSQL_RANDOM_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+  db-testing:
+    build: ./infra/mysql
+    container_name: "${APP}_db-testing"
+    volumes:
+      - db-testing-store:/var/lib/mysql
+      - ./infra/mysql/logs:/var/log/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_TESTING_DATABASE}
+      - MYSQL_USER=${DB_TESTING_USERNAME}
+      - MYSQL_PASSWORD=${DB_TESTING_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_TESTING_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${DB_TESTING_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=$DB_TESTING_PASSWORD}
+      - TZ=${TZ}
+    ports:
+      - ${DB_TESTING_PORT}:3306
 volumes:
   db-store:
     name: ${APP}_db-store
+  db-testing-store:
+    name: ${APP}_db-testing-store
